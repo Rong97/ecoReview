@@ -193,7 +193,7 @@ if __name__ == '__main__':
     	command = ''
     	if file.startswith('ss_'):
     		fname = file[:-4] + '.txt'
-    		command = 'docx2txt "%s" > "sources/%s" '%(file,fname)
+    		command = 'docx2txt "%s" > sources/"%s" '%(file,fname)
     		# subprocess.run(command,capture_output=False, shell = True,text = True)
     	elif file.startswith('ch'):
     		fname = file[:-4] + '.txt'
@@ -206,6 +206,7 @@ if __name__ == '__main__':
     # root = window()
     # root.resizable(True, True) 
     # root.mainloop()
+    input()
 
     ## finishing, removing all those created txt files.
     for dir in ['ttb','sources']:
