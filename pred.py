@@ -96,8 +96,8 @@ class window(tk.Tk):
 		num = int(self.num_match.get())
 		
 		# fatching content from "cmd"
-		content1 = grep_context("*.docx",s,num)
-		content2 = grep_context("*.txt",s,num)
+		content1 = grep_context("sources",s,num)
+		content2 = grep_context("ttb",s,num)
 
 		contents.append(content1)
 		contents.append(content2)
@@ -155,26 +155,25 @@ class window(tk.Tk):
 
 
 
-def grep_context(filename,context,num_match = 2):
+def grep_context(direction,context,num_match = 2):
     # p = os.popen('catdoc -w "%s" | grep -m2 "The"' % filename,
     	# stdin=os.PIPE, stdout=os.PIPE, stderr=os.STDOUT, close_fds=True)
 
     # p1 = subprocess.run(command1 , shell = True)
     # command = 'catdoc %s *.txt | grep -m%d "%s" -A12' % (filename,num_match,context)
     # command = 'cat %s *.txt | grep -m%d "%s" -A12' % (filename,num_match,context)
-    if "*.txt" in filename:
-    	command = 'cat %s | grep -m%d "%s" -A12' % (filename,num_match,context)
-    else:
-    	command = 'docx2txt %s | grep -m%d "%s" -A12' % (filename,num_match,context)
-    p = subprocess.run(command,
-    		shell = True,
-    		capture_output= True,
-    		text = True)
-    if p.returncode != 1:
-    	content = p.stdout
-    else:
-    	# content = os.system(command)
-    	content = p.stderr
+    content = "ppath does not exist!!"
+    if ppath.exists(direction):
+        command = 'cat %s/*.txt | grep -m%d "%s" -A12' % (direction, num_match,context)
+
+        p = subprocess.run(command,
+	    		shell = True,
+	    		capture_output= True,
+	    		text = True)
+        if p.returncode != 1:
+            content = p.stdout
+        else:
+            content = p.stderr
     return content
 
 
@@ -192,21 +191,21 @@ if __name__ == '__main__':
     for file in os.listdir():
     	command = ''
     	if file.startswith('ss_'):
-    		fname = file[:-4] + '.txt'
+    		fname = file[:-5] + '.txt'
     		command = 'docx2txt "%s" > sources/"%s" '%(file,fname)
     		# subprocess.run(command,capture_output=False, shell = True,text = True)
     	elif file.startswith('ch'):
     		fname = file[:-4] + '.txt'
-    		print(file,fname)
+    		
     		command = 'antiword "%s" > ttb/"%s" '%(file,fname)
-    		print(command)
+    		
     	subprocess.run(command,capture_output=False, shell = True,text = True)
 
 
-    # root = window()
-    # root.resizable(True, True) 
-    # root.mainloop()
-    input()
+    root = window()
+    root.resizable(True, True) 
+    root.mainloop()
+    # input()
 
     ## finishing, removing all those created txt files.
     for dir in ['ttb','sources']:
