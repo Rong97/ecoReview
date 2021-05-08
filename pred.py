@@ -190,22 +190,27 @@ if __name__ == '__main__':
     # 		subprocess.run(['pdftotext',f])
 
     for file in os.listdir():
+    	command = ''
     	if file.startswith('ss_'):
     		fname = file[:-4] + '.txt'
-    		command = 'docx2txt %s > sources/%s'.format(file,fname)
+    		command = 'docx2txt "%s" > "sources/%s" '%(file,fname)
     		# subprocess.run(command,capture_output=False, shell = True,text = True)
     	elif file.startswith('ch'):
     		fname = file[:-4] + '.txt'
-    		command = 'catdoc %s > ttb/ %s'.format(file,fname)
+    		print(file,fname)
+    		command = 'antiword "%s" > ttb/"%s" '%(file,fname)
+    		print(command)
     	subprocess.run(command,capture_output=False, shell = True,text = True)
 
 
-    root = window()
-    root.resizable(True, True) 
-    root.mainloop()
+    # root = window()
+    # root.resizable(True, True) 
+    # root.mainloop()
 
     ## finishing, removing all those created txt files.
     for dir in ['ttb','sources']:
     	for f in os.listdir(dir):
-    		os.remove(f)
+    		if f.endswith('.txt'):
+    			os.remove(dir+'/' + f)
+
 
