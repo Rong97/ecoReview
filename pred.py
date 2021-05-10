@@ -4,6 +4,7 @@ from os import path as ppath
 import subprocess
 import tkinter as tk
 from tkinter import ttk, Frame, Entry, Label, Button, Text
+import docx2txt as d2t
 
 
 FONT = ('calibre',14,'bold')
@@ -191,8 +192,12 @@ if __name__ == '__main__':
     for file in os.listdir():
     	command = ''
     	if file.startswith('ss_'):
-    		fname = file[:-5] + '.txt'
-    		command = 'docx2txt "%s" > sources/"%s" '%(file,fname)
+    		fname = 'sources/' + file[:-5] + '.txt'
+    		# command = 'docx2txt "%s" > sources/"%s" '%(file,fname)
+    		content = d2t.process(file)
+    		with open(fname,'w') as f:
+    			print(content , file = f)
+
     		# subprocess.run(command,capture_output=False, shell = True,text = True)
     	elif file.startswith('ch'):
     		fname = file[:-4] + '.txt'
@@ -203,7 +208,7 @@ if __name__ == '__main__':
 
 
     root = window()
-    root.resizable(True, True) 
+    root.resizable(True, True)
     root.mainloop()
     # input()
 
