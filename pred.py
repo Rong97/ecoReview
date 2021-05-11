@@ -5,6 +5,7 @@ import subprocess
 import tkinter as tk
 from tkinter import ttk, Frame, Entry, Label, Button, Text
 import docx2txt as d2t
+import textract
 
 
 FONT = ('calibre',14,'bold')
@@ -150,12 +151,6 @@ class window(tk.Tk):
 	        return False
 
 
-
-
-
-
-
-
 def grep_context(direction,context,num_match = 2):
     # p = os.popen('catdoc -w "%s" | grep -m2 "The"' % filename,
     	# stdin=os.PIPE, stdout=os.PIPE, stderr=os.STDOUT, close_fds=True)
@@ -184,6 +179,8 @@ if __name__ == '__main__':
     	os.makedirs("ttb")
     	os.makedirs("sources")
 
+    ss_dir = os.path.join(os.getcwd(),'sources')
+    tb_dir = os.path.join(os.getcwd(),'ttb')
     ##converting all docx formating file into plain txt file
     # for f in os.listdir():
     # 	if f.endswith(".pdf"):
@@ -200,11 +197,16 @@ if __name__ == '__main__':
 
     		# subprocess.run(command,capture_output=False, shell = True,text = True)
     	elif file.startswith('ch'):
-    		fname = file[:-4] + '.txt'
+    		fname, _ = os.path.splitext(file)
+    		fname += '.txt'
+    		fname = os.path.join(tb_dir,fname)
     		
-    		command = 'antiword "%s" > ttb/"%s" '%(file,fname)
+    		# command = 'antiword "%s" > ttb/"%s" '%(file,fname)
+    		content = textract.process(file)
+    		with open(fname,'wb') as ff:
+    			ff.write(content)
     		
-    	subprocess.run(command,capture_output=False, shell = True,text = True)
+    	# subprocess.run(command,capture_output=False, shell = True,text = True)
 
 
     root = window()
