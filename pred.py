@@ -1,4 +1,3 @@
-#! /usr/bin/python3
 import os
 from os import path as ppath
 import subprocess
