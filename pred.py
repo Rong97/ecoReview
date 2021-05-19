@@ -97,8 +97,8 @@ class window(tk.Tk):
 		num = int(self.num_match.get())
 		
 		# fatching content from "cmd"
-		content1 = grep_context("sources",s,num)
-		content2 = grep_context("ttb",s,num)
+		content1 = grep_context("sources",s,num,1,1)
+		content2 = grep_context("ttb",s,num,8,3)
 
 		contents.append(content1)
 		contents.append(content2)
@@ -150,7 +150,7 @@ class window(tk.Tk):
 	        return False
 
 
-def grep_context(direction,context,num_match = 2):
+def grep_context(direction,context,num_match = 2,after = 5,before = 12):
     # p = os.popen('catdoc -w "%s" | grep -m2 "The"' % filename,
     	# stdin=os.PIPE, stdout=os.PIPE, stderr=os.STDOUT, close_fds=True)
 
@@ -159,7 +159,7 @@ def grep_context(direction,context,num_match = 2):
     # command = 'cat %s *.txt | grep -m%d "%s" -A12' % (filename,num_match,context)
     content = "ppath does not exist!!"
     if ppath.exists(direction):
-        command = 'cat %s/*.txt | grep -m%d "%s" -A5' % (direction, num_match,context)
+        command = 'cat %s/*.txt | grep -m%d "%s" -A%d -B%d' % (direction, num_match,context,after,before)
 
         p = subprocess.run(command,
 	    		shell = True,
