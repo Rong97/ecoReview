@@ -149,6 +149,29 @@ class window(tk.Tk):
 	    else:
 	        return False
 
+def fetch2Txt(direction):
+    if ppath.exits(direction):
+        for file in os.listdir():
+            command = ''
+            if file.startswith('ss_'):
+                fname = 'sources/' + file[:-5] + '.txt'
+                # command = 'docx2txt "%s" > sources/"%s" '%(file,fname)
+                content = d2t.process(file)
+                with open(fname,'w') as f:
+                    print(content , file = f)
+
+            # subprocess.run(command,capture_output=False, shell = True,text = True)
+        elif file.startswith('chapter'):
+            fname, _ = os.path.splitext(file)
+            fname += '.txt'
+            fname = os.path.join(tb_dir,fname)
+            
+            # command = 'antiword "%s" > ttb/"%s" '%(file,fname)
+            content = textract.process(file)
+            with open(fname,'wb') as ff:
+                ff.write(content)
+
+
 
 def grep_context(direction,context,num_match = 2,after = 5,before = 12):
     # p = os.popen('catdoc -w "%s" | grep -m2 "The"' % filename,
@@ -185,27 +208,30 @@ if __name__ == '__main__':
     # 	if f.endswith(".pdf"):
     # 		subprocess.run(['pdftotext',f])
 
-    for file in os.listdir():
-    	command = ''
-    	if file.startswith('ss_'):
-    		fname = 'sources/' + file[:-5] + '.txt'
-    		# command = 'docx2txt "%s" > sources/"%s" '%(file,fname)
-    		content = d2t.process(file)
-    		with open(fname,'w') as f:
-    			print(content , file = f)
+    for dd in [ss_dir,tb_dir]:
+        fetch2Txt(dd)
 
-    		# subprocess.run(command,capture_output=False, shell = True,text = True)
-    	elif file.startswith('ch'):
-    		fname, _ = os.path.splitext(file)
-    		fname += '.txt'
-    		fname = os.path.join(tb_dir,fname)
+    # for file in os.listdir():
+    # 	command = ''
+    # 	if file.startswith('ss_'):
+    # 		fname = 'sources/' + file[:-5] + '.txt'
+    # 		# command = 'docx2txt "%s" > sources/"%s" '%(file,fname)
+    # 		content = d2t.process(file)
+    # 		with open(fname,'w') as f:
+    # 			print(content , file = f)
+
+    # 		# subprocess.run(command,capture_output=False, shell = True,text = True)
+    # 	elif file.startswith('ch'):
+    # 		fname, _ = os.path.splitext(file)
+    # 		fname += '.txt'
+    # 		fname = os.path.join(tb_dir,fname)
     		
-    		# command = 'antiword "%s" > ttb/"%s" '%(file,fname)
-    		content = textract.process(file)
-    		with open(fname,'wb') as ff:
-    			ff.write(content)
+    # 		# command = 'antiword "%s" > ttb/"%s" '%(file,fname)
+    # 		content = textract.process(file)
+    # 		with open(fname,'wb') as ff:
+    # 			ff.write(content)
     		
-    	# subprocess.run(command,capture_output=False, shell = True,text = True)
+    # 	# subprocess.run(command,capture_output=False, shell = True,text = True)
 
 
     root = window()
