@@ -159,7 +159,7 @@ def grep_context(direction,context,num_match = 2):
     # command = 'cat %s *.txt | grep -m%d "%s" -A12' % (filename,num_match,context)
     content = "ppath does not exist!!"
     if ppath.exists(direction):
-        command = 'cat %s/*.txt | grep -m%d "%s" -A12' % (direction, num_match,context)
+        command = 'cat %s/*.txt | grep -m%d "%s" -A5' % (direction, num_match,context)
 
         p = subprocess.run(command,
 	    		shell = True,
