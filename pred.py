@@ -98,7 +98,7 @@ class window(tk.Tk):
 		
 		# fatching content from "cmd"
 		content1 = grep_context("sources",s,num,1,1)
-		content2 = grep_context("ttb",s,num,8,3)
+		content2 = grep_context("ttb",s,num,12,3)
 
 		contents.append(content1)
 		contents.append(content2)
