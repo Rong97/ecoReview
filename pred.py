@@ -150,26 +150,25 @@ class window(tk.Tk):
 	        return False
 
 def fetch2Txt(direction):
-    if ppath.exits(direction):
-        for file in os.listdir():
-            command = ''
-            if file.startswith('ss_'):
-                fname = 'sources/' + file[:-5] + '.txt'
-                # command = 'docx2txt "%s" > sources/"%s" '%(file,fname)
+    if ppath.exists(direction):
+        for file in os.listdir(direction):
+            if file.endswith('.docx'):
+                file = os.path.join(direction,file)
+                fname,_ = os.path.splitext(file)
+                fname += '.txt'
+
                 content = d2t.process(file)
                 with open(fname,'w') as f:
                     print(content , file = f)
 
-            # subprocess.run(command,capture_output=False, shell = True,text = True)
-        elif file.startswith('chapter'):
-            fname, _ = os.path.splitext(file)
-            fname += '.txt'
-            fname = os.path.join(tb_dir,fname)
+            elif file.endswith('.doc'):
+                file = os.path.join(direction,file)
+                fname,_ = os.path.splitext(file)
+                fname += '.txt'
             
-            # command = 'antiword "%s" > ttb/"%s" '%(file,fname)
-            content = textract.process(file)
-            with open(fname,'wb') as ff:
-                ff.write(content)
+                content = textract.process(file)
+                with open(fname,'wb') as ff:
+                    ff.write(content)
 
 
 
