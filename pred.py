@@ -158,7 +158,7 @@ def fetch2Txt(direction):
                 fname += '.txt'
 
                 content = d2t.process(file)
-                with open(fname,'w',encoding = "utf-8) as f:
+                with open(fname,'w',encoding = "utf-8") as f:
                     print(content , file = f)
 
             elif file.endswith('.doc'):
