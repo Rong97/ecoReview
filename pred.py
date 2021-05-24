@@ -152,6 +152,8 @@ class window(tk.Tk):
 def fetch2Txt(direction):
     if ppath.exists(direction):
         for file in os.listdir(direction):
+            if file.startswith("~"):
+                continue
             if file.endswith('.docx'):
                 file = os.path.join(direction,file)
                 fname,_ = os.path.splitext(file)
